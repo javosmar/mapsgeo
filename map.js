@@ -1,3 +1,6 @@
+var idPlanilla = "";
+var key = "";
+
 var map;
 var locations = [];
 var locations2 = [];
@@ -5,10 +8,9 @@ var markers = [];
 var markerClicked;
 var infoDesplegada;
 var centro = {lat:-34.5956145 ,lng: -58.4431949};
-    // Planilla completa
-var urlPlanilla = "https://sheets.googleapis.com/v4/spreadsheets/(id planilla)/values/mapa1!A2:H?key=(completar key)";
-    // Planilla prueba
-//var urlPlanilla = "https://sheets.googleapis.com/v4/spreadsheets/(id planilla)/values/mapa1!A2:H?key=(completar key)";
+
+var urlPlanilla = "https://sheets.googleapis.com/v4/spreadsheets/";
+urlPlanilla += idPlanilla + "/values/mapaPrueba!A2:F?key=" + key;
 
 function initialiseMap() {
   $.getJSON(urlPlanilla, function(data) {
@@ -25,14 +27,14 @@ function initialiseMap() {
 function recorreData(locaciones){
     $(locaciones).each(function() {
         var location = {};
-        location.id = this[2];
-        location.latitude = parseFloat(this[0]);
-        location.longitude = parseFloat(this[1]);
-        location.dircompleto = this[3];
-        location.nodo = this[4];
-        location.direccion = this[5];
-        location.direccionciudad = this[6];
-        location.color = this[7];
+        location.id = this[0];
+        location.latitude = parseFloat(this[3]);
+        location.longitude = parseFloat(this[4]);
+        //location.dircompleto = this[1];
+        location.nodo = this[1];
+        location.direccion = this[2];
+        //location.direccionciudad = this[4];
+        location.color = this[5];
         locations2.push(location);
     });
     compare(locations2);
@@ -61,7 +63,6 @@ function createMarker(map, location, infowindow) {
 
     var marker = new google.maps.Marker({
         position: position,
-        //map: map,
         title: location.id,
         icon: {
         url: url
